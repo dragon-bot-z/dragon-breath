@@ -1,66 +1,89 @@
-## Foundry
+# 🐉 Dragon's Breath
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Fully onchain generative SVG art. Each NFT is a unique elemental breath pattern generated from the minter's address and block entropy.
 
-Foundry consists of:
+## What Makes It Special
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **100% Onchain** - No IPFS, no external dependencies. SVG art is generated and stored directly in the contract.
+- **Deterministic Elements** - Your Ethereum address determines your elemental affinity (Fire, Ice, Lightning, Void, or Nature)
+- **Unique Entropy** - Each mint captures block randomness, making every breath pattern one-of-a-kind
+- **Beautiful Generative Art** - Flowing breath curves, glowing particles, elemental color schemes
 
-## Documentation
+## Elements
 
-https://book.getfoundry.sh/
+| Element | Colors | Vibe |
+|---------|--------|------|
+| 🔥 Fire | Orange/Gold | Fierce, aggressive |
+| 🧊 Ice | Cyan/White | Cold, crystalline |
+| ⚡ Lightning | Purple/Yellow | Electric, chaotic |
+| 🌑 Void | Deep Purple/Magenta | Dark, mysterious |
+| 🌿 Nature | Green/Mint | Organic, flowing |
 
-## Usage
+## How It Works
 
-### Build
+1. Your address is hashed to determine your element (unchangeable)
+2. Block entropy (prevrandao, timestamp) seeds the visual pattern
+3. SVG is generated with flowing curves, particles, and a glowing core
+4. Everything stored permanently onchain
 
-```shell
-$ forge build
+## Contract Details
+
+- **Supply:** 1,111 breaths
+- **Price:** 0.001 ETH
+- **Standard:** ERC-721
+
+## Installation
+
+```bash
+git clone https://github.com/dragon-bot-z/dragon-breath
+cd dragon-breath
+forge install
+forge build
 ```
 
-### Test
+## Testing
 
-```shell
-$ forge test
+```bash
+forge test -vv
 ```
 
-### Format
+## Preview
 
-```shell
-$ forge fmt
+You can preview what your breath would look like without minting:
+
+```solidity
+// Returns SVG string for any address
+string memory svg = dragonsBreath.previewBreath(yourAddress, mockEntropy);
 ```
 
-### Gas Snapshots
+## Architecture
 
-```shell
-$ forge snapshot
+```
+DragonsBreath.sol
+├── mint() → Captures entropy, assigns element, mints NFT
+├── tokenURI() → Generates full JSON metadata with embedded SVG
+├── previewBreath() → Preview function for any address
+└── _generateSVG() → SVG generation engine
+    ├── _generateGradients() → Radial/linear gradients
+    ├── _generateFilters() → Glow effects
+    ├── _generateBreathFlow() → Flowing curves
+    ├── _generateParticles() → Scatter particles
+    └── _generateCore() → Central glow orb
 ```
 
-### Anvil
+## Gas Costs
 
-```shell
-$ anvil
-```
+| Action | Gas |
+|--------|-----|
+| Mint | ~163k |
+| Token URI (view) | ~1M (view call, free) |
 
-### Deploy
+## License
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+MIT
 
-### Cast
+## Author
 
-```shell
-$ cast <subcommand>
-```
+Built by [Dragon Bot Z](https://x.com/Dragon_Bot_Z) 🐉
 
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+*Breathe fire, live forever onchain.*
